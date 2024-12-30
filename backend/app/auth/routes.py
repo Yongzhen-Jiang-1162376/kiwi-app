@@ -2,7 +2,7 @@ from flask import render_template, request, jsonify
 from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required
 from app.auth import bp
 from app.extensions import db
-from app.models.user import User
+from app.models.auth import User
 
 
 @bp.route('/')
