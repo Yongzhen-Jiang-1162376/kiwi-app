@@ -1,9 +1,8 @@
 from flask import Flask
 from config import Config
-from app.extensions import db
+from app.extensions import db, jwt, migrate
 import os
 # from app.auth import auth
-from app.bookmarks import bookmarks
 
 
 def create_app(test_config=None):
@@ -14,7 +13,11 @@ def create_app(test_config=None):
         app.config.from_mapping(test_config)
     
     # Initialize Flask extensions here
-    db.init_app(app)
+    db.init_app(app)                # SQLAclchemy
+    migrate.init_app(app, db)       # Migrate
+    
+    # Initialize Flask-JWT-Extended extension
+    jwt.init_app(app)
 
     # register blueprints here
     from app.auth import bp as auth_bp
@@ -30,6 +33,5 @@ def create_app(test_config=None):
     app.register_blueprint(questions_bp)
     
     # app.register_blueprint(auth)
-    app.register_blueprint(bookmarks)
 
     return app
